@@ -1,12 +1,27 @@
---------------------------------------------------------------------------------
 {-# LANGUAGE OverloadedStrings #-}
-import           Data.Monoid (mappend)
-import           Hakyll
+
+-------------------------------------------------------------------
+-- |
+-- Module       : Web.ForgetFunctor.Main
+-- Copyright    : (C) 2014 Dom De Re
+-- License      : BSD-style (see the file etc/LICENSE.md)
+-- Maintainer   : Dom De Re
+--
+-- Generator for the Forgetful Functor site.
+-------------------------------------------------------------------
+module Web.ForgetfulFunctor.Main (
+    -- * The Main Function for the Site Generator
+        siteGenerator
+    ) where
+
+import Data.Monoid (mappend)
+import Hakyll
 
 
---------------------------------------------------------------------------------
-main :: IO ()
-main = hakyll $ do
+-- | The executable's main function only needs to call this action.
+--
+siteGenerator :: IO ()
+siteGenerator = hakyll $ do
     match "images/*" $ do
         route   idRoute
         compile copyFileCompiler
@@ -15,7 +30,7 @@ main = hakyll $ do
         route   idRoute
         compile compressCssCompiler
 
-    match (fromList ["about.rst", "contact.markdown"]) $ do
+    match (fromList ["about.rst", "contact.md"]) $ do
         route   $ setExtension "html"
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/default.html" defaultContext
@@ -60,7 +75,6 @@ main = hakyll $ do
     match "templates/*" $ compile templateCompiler
 
 
---------------------------------------------------------------------------------
 postCtx :: Context String
 postCtx =
     dateField "date" "%B %e, %Y" `mappend`
