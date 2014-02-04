@@ -58,8 +58,8 @@ siteGenerator = hakyll $ do
                 >>= relativizeUrls
 
 
-    match "index.html" $ do
-        route idRoute
+    match "index.md" $ do
+        route $ setExtension "html"
         compile $ do
             posts <- recentFirst =<< loadAll "posts/*"
             let indexCtx =
@@ -67,9 +67,9 @@ siteGenerator = hakyll $ do
                     constField "title" "Home"                `mappend`
                     defaultContext
 
-            getResourceBody
+            pandocCompiler
                 >>= applyAsTemplate indexCtx
-                >>= loadAndApplyTemplate "templates/default.html" indexCtx
+                >>= loadAndApplyTemplate "templates/home.html" indexCtx
                 >>= relativizeUrls
 
     match "templates/*" $ compile templateCompiler
