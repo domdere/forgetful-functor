@@ -3,13 +3,14 @@ title: Home
 home: Yes
 ---
 
-## Welcome
+# Dom De Re
 
-![](/images/haskell-logo.png)
+``` Haskell
+data About = Me
+    {   _software   :: Profession   -- ^ Functional Programming
+    ,   _maths      :: Interest     -- ^ Algebra, Category Theory, Homotopy theory etc...
+    }
+```
+-------
 
-Welcome to my blog!
-
-It's still under construction while I get used to Hakyll
-
-
-or you can find more in the [archives](/archive.html "archives")
+The site is still under construction while I get used to Hakyll
