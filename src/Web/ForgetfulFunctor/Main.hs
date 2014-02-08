@@ -68,7 +68,6 @@ siteGenerator = hakyll $ do
                     defaultContext
 
             pandocCompiler
-                >>= applyAsTemplate indexCtx
                 >>= loadAndApplyTemplate "templates/home.html" indexCtx
                 >>= relativizeUrls
 
