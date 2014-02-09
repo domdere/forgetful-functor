@@ -1,21 +1,21 @@
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">The Forgetful Functor</a>
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">The Forgetful Functor</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li $if(home)$ class="active" $endif$><a href="/">Home</a></li>
+                        <li $if(contact)$ class="active" $endif$><a href="/contact.html">Contact</a></li>
+                        <li $if(about)$ class="active" $endif$><a href="/about.html">About</a></li>
+                        <li $if(about)$ class="archives" $endif$><a href="/archives.html">Archives</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li $if(home)$ class="active" $endif$><a href="/">Home</a></li>
-                <li $if(contact)$ class="active" $endif$><a href="/contact.html">Contact</a></li>
-                <li $if(about)$ class="active" $endif$><a href="/about.html">About</a></li>
-                <li $if(about)$ class="archives" $endif$><a href="/archives.html">Archives</a></li>
-            </ul>
-        </div>
-    </div>
-</div>

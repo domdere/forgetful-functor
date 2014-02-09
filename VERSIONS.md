@@ -2,7 +2,7 @@
 
 Version info for the JS/CSS content
 
-|   Library |   JS/CSS  |   Version |
-|:----------|:---------:|:---------:|
-|Bootstrap  |   CSS     |   3.1.0   |
+|   Library |   JS/CSS      |   Version |
+|:----------|:-------------:|:---------:|
+|Bootstrap  |   JS and CSS  |   3.1.0   |
 
