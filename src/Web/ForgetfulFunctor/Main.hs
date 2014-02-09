@@ -34,6 +34,10 @@ siteGenerator = hakyll $ do
         route   idRoute
         compile copyFileCompiler
 
+    match "CNAME" $ do
+        route   idRoute
+        compile copyFileCompiler
+
     match (fromList ["about.md", "contact.md"]) $ do
         route   $ setExtension "html"
         compile $ pandocCompiler
