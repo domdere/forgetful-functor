@@ -14,6 +14,8 @@ module Web.ForgetfulFunctor.Main (
         siteGenerator
     ) where
 
+import Web.ForgetfulFunctor.Context.Talk
+
 import Data.Monoid (mappend)
 import Hakyll
 
@@ -44,12 +46,29 @@ siteGenerator = hakyll $ do
             >>= loadAndApplyTemplate "templates/default.html" defaultContext
             >>= relativizeUrls
 
+    match "talks.md" $ do
+        route   $ setExtension "html"
+        compile $ do
+            talks <- recentFirst =<< loadAll "talks/*"
+            pandocCompiler
+                >>= loadAndApplyTemplate "templates/talks.html" (talkListContext talks)
+                >>= loadAndApplyTemplate "templates/default.html" (talkListContext talks)
+                >>= relativizeUrls
+
+
     match "posts/*" $ do
         route $ setExtension "html"
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/post.html"    postCtx
             >>= loadAndApplyTemplate "templates/default.html" postCtx
             >>= relativizeUrls
+
+    match "talks/*" $ do
+        route $ setExtension "html"
+        compile $ pandocCompiler
+            >>= loadAndApplyTemplate "templates/default.html" talkCtx
+            >>= relativizeUrls
+
 
     create ["archive.html"] $ do
         route idRoute
