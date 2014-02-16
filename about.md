@@ -29,4 +29,4 @@ I learn in some sort of order of increasing difficulty.
 
 Plus it'll probably help me get some misconceptions along the way corrected.
 
-[lyahfgg]: www.learnyouahaskell.com "Learn You a Haskell For Great Good!"
+[lyahfgg]: http://www.learnyouahaskell.com "Learn You a Haskell For Great Good!"

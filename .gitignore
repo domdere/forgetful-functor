@@ -2,4 +2,7 @@ _cache/
 _site/
 
 cabal-dev/
+.cabal-sandbox/
 dist/
+
+cabal.sandbox.config
