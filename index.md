@@ -11,6 +11,3 @@ data About = Me
     ,   _maths      :: Interest     -- ^ Algebra, Category Theory, Homotopy theory etc...
     }
 ```
--------
-
-The site is still under construction while I get used to Hakyll

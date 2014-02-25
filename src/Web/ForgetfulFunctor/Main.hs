@@ -14,6 +14,8 @@ module Web.ForgetfulFunctor.Main (
         siteGenerator
     ) where
 
+import Web.ForgetfulFunctor.Context.Post
+
 import Data.Monoid (mappend)
 import Hakyll
 
@@ -47,8 +49,8 @@ siteGenerator = hakyll $ do
     match "posts/*" $ do
         route $ setExtension "html"
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/post.html"    postCtx
-            >>= loadAndApplyTemplate "templates/default.html" postCtx
+            >>= loadAndApplyTemplate "templates/post.html"    postContext
+            -- >>= loadAndApplyTemplate "templates/default.html" postContext
             >>= relativizeUrls
 
     create ["archive.html"] $ do
@@ -71,8 +73,8 @@ siteGenerator = hakyll $ do
         compile $ do
             posts <- recentFirst =<< loadAll "posts/*"
             let indexCtx =
-                    listField "posts" postCtx (return posts) `mappend`
-                    constField "title" "Home"                `mappend`
+                    listField "postList" postContext (return (take 1 posts)) `mappend`
+                    constField "title" "Home"                                `mappend`
                     defaultContext
 
             pandocCompiler
