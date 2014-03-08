@@ -50,7 +50,7 @@ siteGenerator = hakyll $ do
         route $ setExtension "html"
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/post.html"    postContext
-            -- >>= loadAndApplyTemplate "templates/default.html" postContext
+            >>= loadAndApplyTemplate "templates/default.html" postContext
             >>= relativizeUrls
 
     create ["posts.html"] $ do
