@@ -27,9 +27,48 @@ but for those interested, they are referred to the following Wikipedia entries:
 
 -------
 
-Once you read about these facts, the first impulse is to go and deconstruct all the fundamental monads we commonly use in FP.
+## The State Monad
 
+Once you read about these facts, the prospect of deconstructing all the bread and butter monads into adjunctions seems pretty exciting.
+For any given monad `T = G . F`, if `F` is non-trivial (i.e not equal to the Identity or Forgetful functor or to `T` itself), it offers insight
+into some sort of intermediate step to construct the monad.
+
+Unfortunately, most of the common monads (`Reader`, `Writer`, `Maybe`, `[]`, etc..), do not have non-trivial adjunctions that provide this kind of insight (though
+they do have adjunctions that do provide interesting insights about the key properties that define them).
+
+Another problem in terms of finding an adjunction that can be expressed in Haskell without complicated tricks is that all instances of
+`Functor`, `Monad` and `Comonad` are endofunctors on (Proper) Hask.  So if you wish to find an adjunction for a Haskell `Monad` such that it generates
+a comonad that is an instance of a Haskell `Comonad`, both `A` and `X` have to be (Proper) Hask.  The most interesting and common example of a non-trivial
+adjunction that results in a Haskell `Comonad` is an adjunction for the `State` monad that gives rise to the `Store` Comonad.
+
+### The Common Definitions for State and Store
+
+The `State` monad definition in `Control.Monad.State` looks something like this:
+
+``` Haskell
+data State' s a = State' { runState' :: s -> (s, a) }
+```
+
+with a `Functor` instance that looks something like this:
+
+``` Haskell
+instance Functor (State' s) where
+    f `fmap` (State' g) = State' $ sndMap f . g
+        where
+            sndMap :: (a -> b) -> (c, a) -> (c, b)
+            sndMap func (x, y) = (x, func y)
+```
+
+and a `Monad` instance that looks a bit like this (though its probably written better):
+
+``` Haskell
+instance Monad (State' s) where
+    return x = State' $ \s -> (s, x)
+
+    mx >>= f = State' $ \s -> let
+        (s', x) = runState' mx s
+        in runState' (f x) s'
+```
 [natural-isos]: http://en.wikipedia.org/wiki/Natural_isomorphism#natural_isomorphism "Natural Isomorphisms on Wikipedia"
-[monads-adjs]: 
 [kleisli-cats]: http://en.wikipedia.org/wiki/Kleisli_categories "Kleisli Categories on Wikipedia"
 [eilenburg-moore]: http://en.wikipedia.org/wiki/Eilenberg%E2%80%93Moore_category#Algebras_for_a_monad "Eilenburg-Moore Categories on Wikipedia"
