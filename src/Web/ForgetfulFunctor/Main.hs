@@ -53,7 +53,7 @@ siteGenerator = hakyll $ do
             -- >>= loadAndApplyTemplate "templates/default.html" postContext
             >>= relativizeUrls
 
-    create ["archive.html"] $ do
+    create ["posts.html"] $ do
         route idRoute
         compile $ do
             posts <- recentFirst =<< loadAll "posts/*"
@@ -63,7 +63,7 @@ siteGenerator = hakyll $ do
                     defaultContext
 
             makeItem ""
-                >>= loadAndApplyTemplate "templates/archive.html" archiveCtx
+                >>= loadAndApplyTemplate "templates/postarchive.html" archiveCtx
                 >>= loadAndApplyTemplate "templates/default.html" archiveCtx
                 >>= relativizeUrls
 
