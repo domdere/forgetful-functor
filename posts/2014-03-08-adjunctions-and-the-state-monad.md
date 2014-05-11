@@ -69,6 +69,15 @@ instance Monad (State' s) where
         (s', x) = runState' mx s
         in runState' (f x) s'
 ```
+
+The definition for `Store` in `Control.Comonad.Store` looks something like this:
+
+``` Haskell
+data Store' s a = Store' s (s -> a)
+```
+
+With a Functor instance that looks like this
+
 [natural-isos]: http://en.wikipedia.org/wiki/Natural_isomorphism#natural_isomorphism "Natural Isomorphisms on Wikipedia"
 [kleisli-cats]: http://en.wikipedia.org/wiki/Kleisli_categories "Kleisli Categories on Wikipedia"
 [eilenburg-moore]: http://en.wikipedia.org/wiki/Eilenberg%E2%80%93Moore_category#Algebras_for_a_monad "Eilenburg-Moore Categories on Wikipedia"
