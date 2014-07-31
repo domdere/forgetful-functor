@@ -94,6 +94,10 @@ Again just in case and to compare:
 % cabal sandbox add-source liquidhaskell
 % cabal install liquid-fixpoint
 % cabal install liquidhaskell
+% mkdir -p ~/haskell-tools/bin
+% cd ~/haskell-tools/bin
+% ln -sf ~/haskell-tools/liquid-haskell/.cabal-sandbox/bin/liquid .
+% ln -sf ~/haskell-tools/liquid-haskell/.cabal-sandbox/bin/fixpoint .
 ```
 
 Liquid Haskell needs **GHC**, version `4.8.3`, instructions to build it from source are [**here**] [installing-ghc]
