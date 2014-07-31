@@ -15,7 +15,7 @@ So **Liquid Haskell** requires the following:
 -   A recent **Ocaml** compiler...
 -   [**Z3**] [z3]
 
-## Installing the latest version of Git
+### Installing the latest version of Git
 
 I was running the version of **Git** from the aptitude `git` package (version `1.9.1`) and was getting this error:
 
@@ -45,9 +45,7 @@ The following builds and installs latest version of `git` (version `2.0.3` at th
 % sudo make install install-doc install-html
 ```
 
-
-
-## Installing Z3
+### Installing Z3
 
 Instructions for installing **Z3** for Ubuntu are [**here**] [installing-z3] (little hard to find).
 
@@ -64,6 +62,44 @@ But just in case whatever, they are again listed here (I didn't want to install 
 % sudo make install
 ```
 
+### Building the OCaml Compiler
+
+Instructions are [**here**] [installing-ocaml].
+
+Again just in case and to compare:
+
+```
+% git clone git@github.com:ocaml/ocaml.git
+% cd ocaml
+% git checkout 4.01.0
+% ./configure
+% make world
+% make bootstrap
+% make opt
+% make opt.opt
+% umask 022
+% make install
+% make clean
+```
+
+## Installing Liquid Haskell
+
+```
+% mkdir -p ~/haskell-tools/liquid-haskell
+% cd ~/haskell-tools/liquid-haskell
+% git clone git@github.com:ucsd-progsys/liquid-fixpoint.git
+% git clone git@github.com:ucsd-progsys/liquidhaskell.git
+% cabal sandbox init
+% cabal sandbox add-source liquid-fixpoint
+% cabal sandbox add-source liquidhaskell
+% cabal install liquid-fixpoint
+% cabal install liquidhaskell
+```
+
+Liquid Haskell needs **GHC**, version `4.8.3`, instructions to build it from source are [**here**] [installing-ghc]
+
 [liquid-haskell]: http://goto.ucsd.edu/~rjhala/liquid/haskell/blog/about/ "About Liquid Haskell"
 [z3]: http://z3.codeplex.com/ "Z3"
 [installing-z3]: http://z3.codeplex.com/SourceControl/latest#README "Z3 Installation Instructions"
+[installing-ocaml]: https://github.com/ocaml/ocaml/blob/trunk/INSTALL "OCaml Installation Instructions"
+[installing-ghc]: https://ghc.haskell.org/trac/ghc/wiki/Building/QuickStart "GHC Installation Instructions"
