@@ -6,7 +6,7 @@ I'm looking to try out [**Liquid Haskell**] [liquid-haskell] in preparation for 
 
 (So I'll save the details and motivation for looking at **Liquid Haskell** until then)
 
-Its more to document the inconvenience and hoops I have to jump through. Part of what I would like to comment on is the hassle of installing it.
+Its more to document the inconvenience and hoops I had to jump through. Part of what I would like to comment on is the hassle/ease of installing it.
 
 ## Prequisites
 
@@ -82,6 +82,10 @@ Again just in case and to compare:
 % make clean
 ```
 
+## Installing GHC version 4.8.3
+
+Liquid Haskell needs **GHC**, version `4.8.3`, instructions to build it from source are [**here**] [installing-ghc]
+
 ## Installing Liquid Haskell
 
 ```
@@ -99,8 +103,6 @@ Again just in case and to compare:
 % ln -sf ~/haskell-tools/liquid-haskell/.cabal-sandbox/bin/liquid .
 % ln -sf ~/haskell-tools/liquid-haskell/.cabal-sandbox/bin/fixpoint .
 ```
-
-Liquid Haskell needs **GHC**, version `4.8.3`, instructions to build it from source are [**here**] [installing-ghc]
 
 [liquid-haskell]: http://goto.ucsd.edu/~rjhala/liquid/haskell/blog/about/ "About Liquid Haskell"
 [z3]: http://z3.codeplex.com/ "Z3"
