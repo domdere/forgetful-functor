@@ -51,6 +51,8 @@ Instructions for installing **Z3** for Ubuntu are [**here**] [installing-z3] (li
 
 But just in case whatever, they are again listed here (I didn't want to install it to `/usr/bin`, but `~/bin` instead):
 
+Its also important to install version `4.3.2` and above.
+
 ```
 % git clone https://git01.codeplex.com/z3
 % cd z3
@@ -61,6 +63,17 @@ But just in case whatever, they are again listed here (I didn't want to install 
 % make -j8
 % sudo make install
 ```
+
+I had previously tried `4.3.1` as it was the "stable" release, however when I eventually tried verifying a module, I got the following error:
+
+```
+Error setting 'MODEL.PARTIAL', reason: unknown option.
+ERROR: invalid INI file
+Fatal error: exception Failure("bracket hits exn: Failure("bracket hits exn: End_of_file \n") 
+")
+```
+
+When I replaced it with the `4.3.2` version of `z3`, it worked.
 
 ### Building the OCaml Compiler
 
