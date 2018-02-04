@@ -1,0 +1,6 @@
+[submodule "lib/preamble"]
+	path = lib/preamble
+	url = https://github.com/domdere/preamble.git
+[submodule "lib/ultra"]
+	path = lib/ultra
+	url = https://github.com/domdere/ultra.git

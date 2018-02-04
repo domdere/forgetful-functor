@@ -1,16 +1,21 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 -------------------------------------------------------------------
 -- |
--- Module       : Web.ForgetFunctor
+-- Module       : Web.ForgetfulFunctor.Data.String
 -- Copyright    : (C) 2014 - 2018 Dom De Re
 -- License      : BSD-style (see the file /LICENSE.md)
 -- Maintainer   : Dom De Re
 --
--- Library for generating the Forgetful Functor web site
 -------------------------------------------------------------------
-module Web.ForgetfulFunctor (
-  -- * The main function for the site generator
-    siteGenerator
+module Web.ForgetfulFunctor.Data.String (
+  -- * Functions
+    extractTeaser
   ) where
 
-import Web.ForgetfulFunctor.Main
+import Data.String (lines, unlines)
+
+import Preamble
+
+extractTeaser :: String -> String
+extractTeaser = unlines . takeWhile (/= "<!-- more -->") . lines
+

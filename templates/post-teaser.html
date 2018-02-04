@@ -1,0 +1,43 @@
+<article>
+    <header>
+        <h1 class="entry-title">
+            $title$
+        </h1>
+        <div class="info">
+            <i class="fa fa-calendar" aria-hidden="true"/> <time datetime="$datetime$" pubdate data-updated="true">$date$</time>
+        </div>
+
+        $if(author)$
+        <div class="info">
+            <i class="fa fa-user-circle" aria-hidden="true"/> $author$
+        </div>
+        $endif$
+
+        $if(difficulty)$
+        <div class="info">
+        <i class="fa fa-puzzle-piece" aria-hidden="true"/> $difficulty$
+        </div>
+        $endif$
+
+        $if(reading-time)$
+        <div class="info">
+            <i class="fa fa-clock-o" aria-hidden="true"/> $reading-time$
+        </div>
+        $endif$
+
+        <div class="info">
+            <i class="fa fa-folder" aria-hidden="true"/> $cats$
+        </div>
+
+        $if(tags)$
+        <div class="info">
+            <i class="fa fa-bookmark" aria-hidden="true"/> $tags$
+        </div>
+        $endif$
+
+    </header>
+
+    $body$
+
+    <div class="continue-link"><a href="$url$">Read More &raquo;</a></div>
+</article>

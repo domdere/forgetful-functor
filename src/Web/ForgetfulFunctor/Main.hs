@@ -1,90 +1,220 @@
+{-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
-
 -------------------------------------------------------------------
 -- |
--- Module       : Web.ForgetFunctor.Main
--- Copyright    : (C) 2014 Dom De Re
--- License      : BSD-style (see the file etc/LICENSE.md)
+-- Module       : Web.ForgetfulFunctor.Main
+-- Copyright    : (C) 2014 - 2018 Dom De Re
+-- License      : BSD-style (see the file /LICENSE.md)
 -- Maintainer   : Dom De Re
 --
--- Generator for the Forgetful Functor site.
 -------------------------------------------------------------------
-module Web.ForgetfulFunctor.Main (
-    -- * The Main Function for the Site Generator
-        siteGenerator
-    ) where
+module Web.ForgetfulFunctor.Main (siteGenerator) where
 
-import Web.ForgetfulFunctor.Context.Post
+import Web.ForgetfulFunctor.Contexts.General (
+    forgetfulFunctorContext
+  )
+import Web.ForgetfulFunctor.Contexts.Post (
+    postCtx
+  , postCtxWithTags
+  )
+import Web.ForgetfulFunctor.Data.String (extractTeaser)
+import Web.ForgetfulFunctor.Details.Social (
+    domdereGithub
+  , domdereTwitter
+  , socialContext
+  )
 
-import Data.Monoid (mappend)
-import Hakyll
+import Hakyll (
+    Context
+  , FeedConfiguration(..)
+  , Item
+  , Pattern
+  , bodyField
+  , buildCategories
+  , buildTags
+  , compile
+  , composeRoutes
+  , constField
+  , copyFileCompiler
+  , create
+  , fromCapture
+  , fromGlob
+  , gsubRoute
+  , hakyll
+  , idRoute
+  , listField
+  , loadAll
+  , loadAllSnapshots
+  , loadAndApplyTemplate
+  , makeItem
+  , match
+  , pandocCompiler
+  , recentFirst
+  , renderAtom
+  , renderTagCloud
+  , relativizeUrls
+  , route
+  , saveSnapshot
+  , setExtension
+  , tagsRules
+  , templateCompiler
+  )
 
+import Data.Monoid ((<>))
 
--- | The executable's main function only needs to call this action.
---
+import Preamble hiding ((<>))
+
 siteGenerator :: IO ()
-siteGenerator = hakyll $ do
-    match "images/*" $ do
-        route   idRoute
+siteGenerator = hakyll $
+  let
+    idPatterns :: [Pattern]
+    idPatterns = ["images/**", "fonts/*", "css/*", "js/*", "CNAME"]
+  in do
+    forM_ idPatterns $ \pat ->
+      match pat $ do
+        route idRoute
         compile copyFileCompiler
 
-    match "css/*" $ do
-        route   idRoute
-        compile compressCssCompiler
+    match "templates/*" $
+      compile templateCompiler
 
-    match "js/*" $ do
-        route   idRoute
-        compile copyFileCompiler
+    tags <- buildTags "posts/**.md" (fromCapture "tags/*.html")
 
-    match "CNAME" $ do
-        route   idRoute
-        compile copyFileCompiler
+    cats <- buildCategories "posts/**.md" (fromCapture "categories/*.html")
 
-    match (fromList ["about.md", "contact.md"]) $ do
-        route   $ setExtension "html"
-        compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/default.html" defaultContext
-            >>= relativizeUrls
+    forM_ [
+        (tags, "tag", "templates/tag-posts.html")
+      , (cats, "cat", "templates/cat-posts.html")
+      ] $ \(items, key, template) ->
+        tagsRules items $ \tag ptn ->
+          let
+            title :: String
+            title = fold [
+                "Posts tagged '"
+              , tag
+              , "'"
+              ]
 
-    match "posts/*" $ do
-        route $ setExtension "html"
-        compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/post.html"    postContext
-            >>= loadAndApplyTemplate "templates/default.html" postContext
-            >>= relativizeUrls
+            ctx :: [Item String] -> Context String
+            ctx posts' =
+                  constField "title" title
+              <>  constField key tag
+              <>  listField "posts" postCtx (pure posts')
+              <>  forgetfulFunctorContext
+          in do
+            route idRoute
+            compile $ do
+              posts <- recentFirst =<< loadAll ptn
+              makeItem ""
+                >>= loadAndApplyTemplate template (ctx posts)
+                >>= loadAndApplyTemplate "templates/default.html" (ctx posts)
+                >>= relativizeUrls
+
+    let postCtx' = postCtxWithTags cats tags
+
+    match "posts/**.md" $ do
+      route $ setExtension "html"
+      compile $ do
+        rawHtml <- pandocCompiler
+        fullArticle <- loadAndApplyTemplate "templates/post.html" postCtx' rawHtml
+          >>= saveSnapshot "content"
+        void $ loadAndApplyTemplate "templates/post-teaser.html" postCtx' (extractTeaser <$> rawHtml)
+          >>= saveSnapshot "teaser"
+        loadAndApplyTemplate "templates/post-default.html" postCtx' fullArticle
+          >>= relativizeUrls
+
+    -- The Atom feed
+    create ["atom.feed"] $
+      let
+        feedCtx :: Context String
+        feedCtx = bodyField "description" <> postCtx'
+
+        feedCfg :: FeedConfiguration
+        feedCfg = FeedConfiguration
+          "Forgetful Functor"
+          "Thoughts on Indie Game Dev, Software Engineering, Tech Culture, etc..."
+          "Dom De Re"
+          ""
+          "http://blog.forgetfulfunctor.com"
+      in do
+        route idRoute
+        compile $ loadAllSnapshots "posts/**.md" "content"
+          >>= (fmap (take 10) . recentFirst)
+          >>= renderAtom feedCfg feedCtx
+
+    create [".nojekyll"] $ do
+      route idRoute
+      compile $ makeItem ("" :: String)
+
+    create ["contact.html"] $ do
+      route idRoute
+      compile $
+        let
+          ctx :: Context String
+          ctx = constField "title" "Contact"
+            <>  constField "contact" "Yes"
+            <>  socialContext "domdere-twitter" domdereTwitter
+            <>  socialContext "domdere-github" domdereGithub
+            <>  forgetfulFunctorContext
+        in makeItem ""
+          >>= loadAndApplyTemplate "templates/contact.html" ctx
+          >>= loadAndApplyTemplate "templates/default.html" ctx
+          >>= relativizeUrls
 
     create ["posts.html"] $ do
-        route idRoute
-        compile $ do
-            posts <- recentFirst =<< loadAll "posts/*"
-            let archiveCtx =
-                    listField "posts" postCtx (return posts) `mappend`
-                    constField "title" "Archives"            `mappend`
-                    defaultContext
+      route idRoute
+      compile $
+        let
+          archiveCtx :: String -> String -> [Item String] -> Context String
+          archiveCtx catCloud tagCloud posts' = fold [
+              listField "posts" postCtx (pure posts')
+            , constField "title" "Posts"
+            , constField "archives" "Yes"
+            , constField "cats" catCloud
+            , constField "tags" tagCloud
+            , forgetfulFunctorContext
+            ]
+        in do
+          posts <- recentFirst =<< loadAll "posts/**.md"
+          tagCloud <- renderTagCloud 100.0 1000.0 tags
+          catCloud <- renderTagCloud 100.0 1000.0 cats
+          makeItem ""
+            >>= loadAndApplyTemplate "templates/posts.html" (archiveCtx catCloud tagCloud posts)
+            >>= loadAndApplyTemplate "templates/default.html" (archiveCtx catCloud tagCloud posts)
+            >>= relativizeUrls
 
-            makeItem ""
-                >>= loadAndApplyTemplate "templates/postarchive.html" archiveCtx
-                >>= loadAndApplyTemplate "templates/default.html" archiveCtx
-                >>= relativizeUrls
-
-
-    match "index.md" $ do
-        route $ setExtension "html"
-        compile $ do
-            posts <- recentFirst =<< loadAll "posts/*"
-            let indexCtx =
-                    listField "postList" postContext (return (take 1 posts)) `mappend`
-                    constField "title" "Home"                                `mappend`
-                    defaultContext
-
+    let simplePages = ["about.md"]
+    forM_ simplePages $ \str ->
+      match (fromGlob ("pages/" <> str)) $
+        let
+          ctx :: Context String
+          ctx = forgetfulFunctorContext
+        in do
+          route $
+            composeRoutes
+              (gsubRoute "pages/" (const ""))
+              (setExtension "html")
+          compile $
             pandocCompiler
-                >>= loadAndApplyTemplate "templates/home.html" indexCtx
-                >>= relativizeUrls
-
-    match "templates/*" $ compile templateCompiler
+              >>= loadAndApplyTemplate "templates/default.html" ctx
+              >>= relativizeUrls
 
 
-postCtx :: Context String
-postCtx =
-    dateField "date" "%B %e, %Y" `mappend`
-    defaultContext
+    match "pages/index.md" $ do
+      route $
+        composeRoutes
+          (gsubRoute "pages/" (const ""))
+          (setExtension "html")
+      compile $
+        let
+          indexCtx :: [Item String] -> Context String
+          indexCtx posts =
+                constField "title" "Forgetful Functor"
+            <>  listField "postList" postCtx (pure (take 10 posts))
+            <>  forgetfulFunctorContext
+        in do
+          posts <- recentFirst =<< loadAllSnapshots "posts/**.md" "teaser"
+          pandocCompiler
+            >>= loadAndApplyTemplate "templates/home.html" (indexCtx posts)
+            >>= loadAndApplyTemplate "templates/default.html" (indexCtx posts)
+            >>= relativizeUrls

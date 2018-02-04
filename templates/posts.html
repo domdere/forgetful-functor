@@ -1,0 +1,14 @@
+<h1>Categories</h1>
+  $cats$
+
+<h1>Tags</h1>
+  $tags$
+
+<h1>All Posts</h1>
+<ul>
+    $for(posts)$
+        <li>
+            <a href="$url$"><strong>$title$</strong></a> - <i>$date$</i> $if(description)$- $description$ $endif$
+        </li>
+    $endfor$
+</ul>
