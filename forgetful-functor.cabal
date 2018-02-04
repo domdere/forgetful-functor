@@ -1,7 +1,7 @@
 name:               forgetful-functor
 version:            0.0.1
 license:            BSD3
-license-file:       etc/LICENCE.md
+license-file:       LICENSE.md
 author:             Dom De Re
 maintainer:         Dom De Re
 copyright:          Copyright (C) 2014
@@ -43,7 +43,10 @@ library
     hs-source-dirs:     src
 
     exposed-modules:    Web.ForgetfulFunctor
-                      , Web.ForgetfulFunctor.Context.Post
+                      , Web.ForgetfulFunctor.Contexts.General
+                      , Web.ForgetfulFunctor.Contexts.Post
+                      , Web.ForgetfulFunctor.Data.String
+                      , Web.ForgetfulFunctor.Details.Social
                       , Web.ForgetfulFunctor.Main
 
 executable              forgetful-functor

@@ -1,8 +1,14 @@
 ----
 title: Installing Liquid Haskell
+description: What the title says
+author: Dom De Re
+reading-time: 4 mins
+tags: liquid haskell, z3, refined types
 ----
 
 I'm looking to try out [**Liquid Haskell**] [liquid-haskell] in preparation for a blog post so figured I would document the installation experience.
+
+<!-- more -->
 
 (So I'll save the details and motivation for looking at **Liquid Haskell** until then)
 

@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'pixelsimulator';
+    src: url('/fonts/Pixel_Emulator.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'avenir-next-pro';
+    src: url('/fonts/AvenirNextLTPro-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'avenir-next-pro-medium';
+    src: url('/fonts/AvenirNextLTPro-MediumCn.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}

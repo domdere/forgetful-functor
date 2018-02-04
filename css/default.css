@@ -11,6 +11,10 @@ div#header {
     padding: 12px 0px 12px 0px;
 }
 
+.irreverent-logo {
+    padding: 0px 0px
+}
+
 div#logo a {
     color: black;
     float: left;
