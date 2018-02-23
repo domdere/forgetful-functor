@@ -24,11 +24,14 @@ import Web.ForgetfulFunctor.Details.Social (
   , socialContext
   )
 
+import Ultra.Data.List (ordNub)
+
 import Hakyll (
     Context
   , FeedConfiguration(..)
   , Item
   , Pattern
+  , Tags(..)
   , bodyField
   , buildCategories
   , buildTags
@@ -174,6 +177,7 @@ siteGenerator = hakyll $
           ctx :: Context String
           ctx = constField "title" "Contact"
             <>  constField "contact" "Yes"
+            <>  listField "categories" (ordNub . fmap fst . tagsMap $ cats)
             <>  socialContext "domdere-twitter" domdereTwitter
             <>  socialContext "domdere-github" domdereGithub
             <>  forgetfulFunctorContext

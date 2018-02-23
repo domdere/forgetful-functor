@@ -36,6 +36,7 @@ library
                       , containers
                       , domdere-preamble
                       , hakyll                  == 4.9.*
+                      , ultra-core
                       , ultra-text
 
     ghc-options:        -Wall
