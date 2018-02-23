@@ -38,6 +38,7 @@ import Hakyll (
   , copyFileCompiler
   , create
   , fromCapture
+  , fromFilePath
   , fromGlob
   , gsubRoute
   , hakyll
@@ -82,6 +83,8 @@ siteGenerator = hakyll $
 
     cats <- buildCategories "posts/**.md" (fromCapture "categories/*.html")
 
+    let postCtx' = postCtxWithTags cats tags
+
     forM_ [
         (tags, "tag", "templates/tag-posts.html")
       , (cats, "cat", "templates/cat-posts.html")
@@ -109,8 +112,6 @@ siteGenerator = hakyll $
                 >>= loadAndApplyTemplate template (ctx posts)
                 >>= loadAndApplyTemplate "templates/default.html" (ctx posts)
                 >>= relativizeUrls
-
-    let postCtx' = postCtxWithTags cats tags
 
     match "posts/**.md" $ do
       route $ setExtension "html"
@@ -141,6 +142,26 @@ siteGenerator = hakyll $
         compile $ loadAllSnapshots "posts/**.md" "content"
           >>= (fmap (take 10) . recentFirst)
           >>= renderAtom feedCfg feedCtx
+
+    tagsRules cats $ \tag _ ->
+      create [fromFilePath $ "feeds/" <> tag <> ".feed"] $
+        let
+          feedCtx :: Context String
+          feedCtx = bodyField "description" <> postCtx'
+
+          feedCfg :: FeedConfiguration
+          feedCfg = FeedConfiguration
+            "Forgetful Functor"
+            ("The sub feed for just the " <> tag <> " category")
+            "Dom De Re"
+            ""
+            "http://blog.forgetfulfunctor.com"
+        in do
+          route idRoute
+          compile $ loadAllSnapshots (fromGlob $ "posts/" <> tag <> "/**.md") "content"
+            >>= (fmap (take 10) . recentFirst)
+            >>= renderAtom feedCfg feedCtx
+
 
     create [".nojekyll"] $ do
       route idRoute
