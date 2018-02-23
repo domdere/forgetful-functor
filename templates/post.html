@@ -1,5 +1,11 @@
 <h1>$title$</h1>
 
+$if(description)$
+<div class="info">
+    <i class="fa fa-book" aria-hidden="true"/> $description$
+</div>
+$endif$
+
 <div class="info">
     <i class="fa fa-calendar" aria-hidden="true"/> <time datetime="$datetime$" pubdate data-updated="true">$date$</time>
 </div>
