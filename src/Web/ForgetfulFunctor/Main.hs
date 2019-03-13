@@ -204,7 +204,7 @@ siteGenerator = hakyll $
             >>= loadAndApplyTemplate "templates/default.html" (archiveCtx catCloud tagCloud posts)
             >>= relativizeUrls
 
-    let simplePages = ["about.md"]
+    let simplePages = ["about.md", "coffee.md"]
     forM_ simplePages $ \str ->
       match (fromGlob ("pages/" <> str)) $
         let

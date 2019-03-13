@@ -13,5 +13,9 @@ data About = Me
   , _maths                 :: Interest     -- ^ Algebra, Category Theory, Game Theory, Homotopy theory etc...
   , _philosophy            :: Interest
   , _leadership            :: Interest     -- ^ Leadership as if your employees (as well as your customers) matter
+  , _creativeWriting       :: Interest
+  , _geekArt               :: Interest
+  , _pixelArt              :: Interest
+  , _illustration          :: Interest
   }
 ```
