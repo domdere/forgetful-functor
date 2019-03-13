@@ -7,31 +7,20 @@ about: Yes
 
 ## Me
 
-I'm a software developer with upwards of 12 years experience now.
+I'm a software developer with upwards of 14 years experience now.
 
-My interests lie in:
+I'm also a pixel artists with about 4 years of experience.
 
-- Functional Programming
-- Devops
-- Software Architecture
-- Game Development
-- Mathematics
-  - Group Theory
-  - Category Theory
-  - Game Theory
-- Philosophy
-- Drawing
-- "Leadership"
+See [Coffee Catchups](/coffee.html) or a list of my interests.
 
-Right now I am participating in a "20% experiment". I am working part time as a software engineer
-4 days a week and using the extra day a week to pursue my own interests.
+Right now I am focussing on:
 
-That time is divvied up between doing work for [my game studio](http://irreverentpixelfeats.com) and providing
-consulting on the topics of:
-
-- Tech Leadership
-- Tech Architecture
-- Tech Culture
+- [My game studio](http://irreverentpixelfeats.com) project
+- Providing consulting on the topics of:
+    - Tech Leadership
+    - Tech Architecture
+    - Tech Culture
+- Selling my Geek Art (will provide a link when that happens)
 
 When I say "Leadership", I don't mean that word that people use in place of "Management" so they can
 feel like Elon Musk or Jeff Bezos.

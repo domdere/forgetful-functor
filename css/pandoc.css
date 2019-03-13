@@ -4,16 +4,19 @@ table.sourceCode { width: 100%; line-height: 100%; }
 td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
 td.sourceCode { padding-left: 5px; }
 pre { color: #c5c8c6 ; background-color: #1d1f21; }
-div code { color: #c5c8c6 ; background-color: #1d1f21; }
-code > span.kw { color: #b294bb; font-weight: bold; }
-code > span.dt { color: #f0c674; font-weight: bold; }
-code > span.dv { color: #de935f; }
-code > span.bn { color: #40a070; }
-code > span.fl { color: #40a070; }
-code > span.ch { color: #4070a0; }
-code > span.st { color: #b5bd68; }
-code > span.co { color: #969896; font-style: italic; }
-code > span.ot { color: #81a2be; }
-code > span.al { color: #ff0000; font-weight: bold; }
-code > span.fu { color: #cc6666; }
-code > span.er { color: #ff0000; font-weight: bold; }
+code > a { color: #81a2be ; background-color: #1d1f21; }
+code > a > span.kw { color: #b294bb; font-weight: bold; }
+code > a > span.op { color: #8abeb7; font-weight: bold; }
+code > a > span.at { color: #cc6666; font-weight: bold; }
+code > a > span.dt { color: #f0c674; font-weight: bold; }
+code > a > span.cf { color: #b294bb; font-weight: bold; }
+code > a > span.dv { color: #de935f; }
+code > a > span.bn { color: #40a070; }
+code > a > span.fl { color: #40a070; }
+code > a > span.ch { color: #4070a0; }
+code > a > span.st { color: #b5bd68; }
+code > a > span.co { color: #969896; font-style: italic; }
+code > a > span.ot { color: #cc6666; font-weight: bold; }
+code > a > span.al { color: #ff0000; font-weight: bold; }
+code > a > span.fu { color: #cc6666; }
+code > a > span.er { color: #ff0000; font-weight: bold; }
